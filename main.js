@@ -1,4 +1,4 @@
-cont SHA256  = require('crypto-js'/sha256);
+const SHA256  = require('crypto-js/sha256');
 
 class Block{
 	constructor(index, timestamp, data, previousHash='') {
@@ -7,29 +7,40 @@ class Block{
 	this.data = data;
 	this.previousHash = previousHash;
 	this.hash = this.calculateHash();
+	this.nonce = 0
 	}
 
 	calculateHash(){
-		return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data)).toString());
+		return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data + this.nonce)).toString();
+	}
+	
+	mineBlock(difficulty){
+		while(this.hash.substring(0, difficulty) !==  Array(difficulty + 1).join("0")){
+			this.nonce++;
+			this.hash = this.calculateHash();
+		}
+		console.log("Block mined: "+ this.hash);
 	}
 }
 
 class Blockchain {
 	constructor(){
 		this.chain = [this.createGenesisBlock()];
+		this.difficulty = 2;
 	}
 
 	createGenesisBlock(){
 		return new Block(0, "01/01/2019", "Genesis Block", "0")
 	}
 
-	getLatestBlockMethod(){
+	getLatestBlock(){
 		return this.chain[this.chain.length-1]
 	}
 
 	addBlock(newBlock){
 		newBlock.previousHash = this.getLatestBlock().hash;
-		newBlock.hash = newBlock.calculateHash();
+		//newBlock.hash = newBlock.calculateHash();
+		newBlock.mineBlock(this.difficulty);
 		this.chain.push(newBlock);
 	}
 
@@ -52,14 +63,18 @@ class Blockchain {
 }
 
 let jsCoin = new Blockchain();
-jsCoin.addblock(new Block(1, "19/5/2019", { amount: 4 }));
-jsCoin.addblock(new Block(2, "20/5/2019", { amount: 5 }));
+
+console.log("Mining block 1...");
+jsCoin.addBlock(new Block(1, "19/5/2019", { amount: 4 }));
+
+console.log("Mining block 2...");
+jsCoin.addBlock(new Block(2, "20/5/2019", { amount: 5 }));
 
 //console.log(JSON.stringify(jsCoin, null, 4));
 
 //Manuplating with the blockchain
-jsCoin.chain[1].data = { amount : 100 };
-jsCoin.chain[1].hash = jsCoin.chain[1].calculateHash();
+//jsCoin.chain[1].data = { amount : 100 };
+//jsCoin.chain[1].hash = jsCoin.chain[1].calculateHash();
 
-console.log('Is the blockchain valid? ' + jsCoin.isChainValid());
+//console.log('Is the blockchain valid? ' + jsCoin.isChainValid());
 
