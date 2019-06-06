@@ -1,4 +1,5 @@
 {
+  "name": "jsChain",
   "requires": true,
   "lockfileVersion": 1,
   "dependencies": {
@@ -65,5 +66,27 @@
       "resolved": "https://registry.npmjs.org/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz",
       "integrity": "sha1-9sAMHAsIIkblxNmd+4x8CDsrWCo="
     }
-  }
+  },
+  "description": "*A simple Blockchain in Javascript with*  >- Proof of work   >- Miner Rewards   >- Signed Transactions",
+  "version": "1.0.0",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flankerad/jsChain.git"
+  },
+  "keywords": [
+    "blockchain",
+    "javascript",
+    "poc"
+  ],
+  "author": "flankerad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flankerad/jsChain/issues"
+  },
+  "homepage": "https://github.com/flankerad/jsChain#readme"
 }
